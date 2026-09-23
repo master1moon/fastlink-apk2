@@ -93,6 +93,37 @@ export default function Steps() {
           </p>
         </div>
       </div>
+
+      {/* Requirements */}
+      <div className="bg-yellow-500/5 rounded-2xl border border-yellow-500/20 p-6">
+        <h3 className="text-lg font-bold text-yellow-400 mb-4 flex items-center gap-2">
+          <i className="fas fa-clipboard-check"></i>
+          المتطلبات قبل البدء
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { name: 'Node.js 18+', link: 'https://nodejs.org', icon: 'fa-node-js', color: 'green' },
+            { name: 'Android Studio', link: 'https://developer.android.com/studio', icon: 'fa-android', color: 'blue' },
+            { name: 'JDK 17', link: 'https://adoptium.net', icon: 'fa-java', color: 'red' },
+            { name: 'Git', link: 'https://git-scm.com', icon: 'fa-code-branch', color: 'orange' },
+          ].map((req, idx) => (
+            <a
+              key={idx}
+              href={req.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-slate-900/50 rounded-lg p-3 border border-slate-700/30 hover:border-slate-600/50 transition-all group"
+            >
+              <i className={`fab ${req.icon} text-${req.color}-400 text-xl`}></i>
+              <div>
+                <div className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">{req.name}</div>
+                <div className="text-[10px] text-slate-500">{req.link}</div>
+              </div>
+              <i className="fas fa-external-link-alt text-slate-600 text-xs mr-auto"></i>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

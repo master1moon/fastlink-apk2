@@ -22,7 +22,7 @@ export default function Header() {
               تحويل فاست لينك حسابات إلى APK
             </h1>
             <p className="text-slate-300 text-sm md:text-base">
-              دليل شامل لتحويل تطبيق الويب إلى تطبيق أندرويد قابل للتثبيت باستخدام Capacitor
+              جميع الملفات جاهزة لبناء APK — تحتاج فقط لتشغيل سكريبت البناء على جهازك
             </p>
             
             {/* Badges */}
@@ -34,10 +34,10 @@ export default function Header() {
                 <i className="fas fa-bolt ml-1"></i> Capacitor 5
               </span>
               <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium border border-purple-500/30">
-                <i className="fas fa-mobile-screen ml-1"></i> PWA → Native
+                <i className="fas fa-check-circle ml-1"></i> 15 ملف جاهز
               </span>
-              <span className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium border border-orange-500/30">
-                <i className="fas fa-check-circle ml-1"></i> جاهز للتنزيل
+              <span className="px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium border border-yellow-500/30">
+                <i className="fas fa-download ml-1"></i> ZIP للتنزيل
               </span>
             </div>
           </div>

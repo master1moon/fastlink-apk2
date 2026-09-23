@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import Header from './components/Header';
+import Explanation from './components/Explanation';
 import Steps from './components/Steps';
-import ChangesList from './components/ChangesList';
-import FileViewer from './components/FileViewer';
+import FilesList from './components/FilesList';
 import DownloadSection from './components/DownloadSection';
 
-type TabType = 'steps' | 'changes' | 'files' | 'download';
+type TabType = 'explanation' | 'steps' | 'files' | 'download';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<TabType>('steps');
+  const [activeTab, setActiveTab] = useState<TabType>('explanation');
 
   const tabs: { id: TabType; label: string; icon: string }[] = [
+    { id: 'explanation', label: 'التوضيح المهم', icon: 'fa-circle-info' },
     { id: 'steps', label: 'خطوات البناء', icon: 'fa-list-ol' },
-    { id: 'changes', label: 'التعديلات المطلوبة', icon: 'fa-pen-to-square' },
-    { id: 'files', label: 'عرض الملفات', icon: 'fa-file-code' },
+    { id: 'files', label: 'الملفات الجاهزة', icon: 'fa-file-code' },
     { id: 'download', label: 'تنزيل الملفات', icon: 'fa-download' },
   ];
 
@@ -45,17 +45,17 @@ export default function App() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
+        {activeTab === 'explanation' && <Explanation />}
         {activeTab === 'steps' && <Steps />}
-        {activeTab === 'changes' && <ChangesList />}
-        {activeTab === 'files' && <FileViewer />}
+        {activeTab === 'files' && <FilesList />}
         {activeTab === 'download' && <DownloadSection />}
       </main>
 
       {/* Footer */}
       <footer className="border-t border-slate-700/50 py-6 mt-12">
         <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
-          <p>تحويل تطبيق <span className="text-green-400">فاست لينك حسابات</span> إلى تطبيق أندرويد APK</p>
-          <p className="mt-1">باستخدام Capacitor 5 — جميع الملفات جاهزة للتنزيل</p>
+          <p>تحويل تطبيق <span className="text-green-400">فاست لينك حسابات</span> إلى تطبيق أندرويد</p>
+          <p className="mt-1">جميع الملفات جاهزة للتنزيل والبناء</p>
         </div>
       </footer>
     </div>
