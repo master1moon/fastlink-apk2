@@ -37,7 +37,7 @@ export default function Header() {
                 <i className="fas fa-mobile-screen ml-1"></i> PWA → Native
               </span>
               <span className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium border border-orange-500/30">
-                <i className="fas fa-wifi ml-1"></i> Offline Ready
+                <i className="fas fa-check-circle ml-1"></i> جاهز للتنزيل
               </span>
             </div>
           </div>

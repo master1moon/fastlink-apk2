@@ -101,6 +101,7 @@ export const changes: Change[] = [
   },
 ];
 
+// ===== الملفات الفعلية المُنشأة =====
 export const projectFiles: ProjectFile[] = [
   {
     path: 'capacitor.config.json',
