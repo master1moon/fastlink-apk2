@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
-@source inline("{bg,text,border}-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate,blue}-{200,300,400,500,600}");
-@source inline("{bg,text,border}-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate}-{500}/{5,10,20,25,30,50}");
-@source inline("shadow-{blue,purple}-{500}/{25}");
+/* Safelist all dynamic color classes used in the app */
+@source inline("{bg,text,border}-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate,rose,amber,lime,violet,fuchsia}-{200,300,400,500,600,700}");
+@source inline("{bg,text,border}-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate}-{500}/{5,10,15,20,25,30,50}");
+@source inline("shadow-{blue,green,purple,red}-{500,600}/{25,30}");
+@source inline("border-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate}-{500}/{20,30,50}");
 
 /* Custom scrollbar hide */
 @utility scrollbar-hide {
