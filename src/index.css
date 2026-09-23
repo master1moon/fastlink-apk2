@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@source inline("{bg,text,border}-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate,blue}-{200,300,400,500,600}");
+@source inline("{bg,text,border}-{blue,yellow,green,purple,pink,orange,cyan,red,teal,indigo,emerald,slate}-{500}/{5,10,20,25,30,50}");
+@source inline("shadow-{blue,purple}-{500}/{25}");
+
+/* Custom scrollbar hide */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* RTL Support */
+html[dir="rtl"] {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
