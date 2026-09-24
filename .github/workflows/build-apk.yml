@@ -1,0 +1,247 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Clone original app
+      run: |
+        git clone https://github.com/master1moon/song10.git temp-app
+        mkdir -p android-app/app/src/main/assets/public
+        cp temp-app/index.html android-app/app/src/main/assets/public/
+        cp temp-app/app.js android-app/app/src/main/assets/public/
+        cp temp-app/manifest.json android-app/app/src/main/assets/public/
+        cp temp-app/serviceworker.js android-app/app/src/main/assets/public/
+        cp -r temp-app/css android-app/app/src/main/assets/public/ || true
+        cp -r temp-app/fonts android-app/app/src/main/assets/public/ || true
+        cp -r temp-app/icons android-app/app/src/main/assets/public/ || true
+        cp -r temp-app/js android-app/app/src/main/assets/public/ || true
+        rm -rf temp-app
+        
+    - name: Create Android project structure
+      run: |
+        mkdir -p android-app/app/src/main/java/com/fastlink/accounts
+        mkdir -p android-app/app/src/main/res/values
+        mkdir -p android-app/app/src/main/res/mipmap-hdpi
+        mkdir -p android-app/app/src/main/res/mipmap-mdpi
+        mkdir -p android-app/app/src/main/res/mipmap-xhdpi
+        mkdir -p android-app/app/src/main/res/mipmap-xxhdpi
+        mkdir -p android-app/app/src/main/res/mipmap-xxxhdpi
+        mkdir -p android-app/gradle/wrapper
+        
+    - name: Create MainActivity.java
+      run: |
+        cat > android-app/app/src/main/java/com/fastlink/accounts/MainActivity.java << 'EOF'
+        package com.fastlink.accounts;
+        
+        import android.app.Activity;
+        import android.os.Bundle;
+        import android.webkit.WebView;
+        import android.webkit.WebSettings;
+        import android.webkit.WebChromeClient;
+        import android.view.Window;
+        import android.view.WindowManager;
+        
+        public class MainActivity extends Activity {
+            private WebView webView;
+            
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                requestWindowFeature(Window.FEATURE_NO_TITLE);
+                
+                webView = new WebView(this);
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setDomStorageEnabled(true);
+                webSettings.setAllowFileAccess(true);
+                webSettings.setAllowContentAccess(true);
+                webSettings.setDatabaseEnabled(true);
+                webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+                webSettings.setSupportZoom(false);
+                webSettings.setBuiltInZoomControls(false);
+                webSettings.setDisplayZoomControls(false);
+                webSettings.setLoadWithOverviewMode(true);
+                webSettings.setUseWideViewPort(true);
+                
+                webView.setWebChromeClient(new WebChromeClient());
+                webView.loadUrl("file:///android_asset/public/index.html");
+                
+                setContentView(webView);
+            }
+            
+            @Override
+            public void onBackPressed() {
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                } else {
+                    super.onBackPressed();
+                }
+            }
+        }
+        EOF
+        
+    - name: Create AndroidManifest.xml
+      run: |
+        cat > android-app/app/src/main/AndroidManifest.xml << 'EOF'
+        <?xml version="1.0" encoding="utf-8"?>
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+            package="com.fastlink.accounts">
+            
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            
+            <application
+                android:allowBackup="true"
+                android:icon="@mipmap/ic_launcher"
+                android:label="@string/app_name"
+                android:theme="@android:style/Theme.NoTitleBar"
+                android:usesCleartextTraffic="true">
+                
+                <activity
+                    android:name=".MainActivity"
+                    android:exported="true"
+                    android:configChanges="orientation|screenSize|keyboardHidden">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN" />
+                        <category android:name="android.intent.category.LAUNCHER" />
+                    </intent-filter>
+                </activity>
+            </application>
+        </manifest>
+        EOF
+        
+    - name: Create strings.xml
+      run: |
+        cat > android-app/app/src/main/res/values/strings.xml << 'EOF'
+        <?xml version="1.0" encoding="utf-8"?>
+        <resources>
+            <string name="app_name">فاست لينك - حسابات</string>
+        </resources>
+        EOF
+        
+    - name: Create build.gradle (project)
+      run: |
+        cat > android-app/build.gradle << 'EOF'
+        buildscript {
+            repositories {
+                google()
+                mavenCentral()
+            }
+            dependencies {
+                classpath 'com.android.tools.build:gradle:8.1.0'
+            }
+        }
+        
+        allprojects {
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
+        
+        task clean(type: Delete) {
+            delete rootProject.buildDir
+        }
+        EOF
+        
+    - name: Create build.gradle (app)
+      run: |
+        cat > android-app/app/build.gradle << 'EOF'
+        plugins {
+            id 'com.android.application'
+        }
+        
+        android {
+            namespace 'com.fastlink.accounts'
+            compileSdk 34
+            
+            defaultConfig {
+                applicationId "com.fastlink.accounts"
+                minSdk 21
+                targetSdk 34
+                versionCode 1
+                versionName "1.0.6"
+            }
+            
+            buildTypes {
+                release {
+                    minifyEnabled false
+                    proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                }
+            }
+            
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+        }
+        
+        dependencies {
+        }
+        EOF
+        
+    - name: Create settings.gradle
+      run: |
+        cat > android-app/settings.gradle << 'EOF'
+        pluginManagement {
+            repositories {
+                google()
+                mavenCentral()
+                gradlePluginPortal()
+            }
+        }
+        dependencyResolutionManagement {
+            repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
+        rootProject.name = "FastLink Accounts"
+        include ':app'
+        EOF
+        
+    - name: Create gradle.properties
+      run: |
+        cat > android-app/gradle.properties << 'EOF'
+        org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+        android.useAndroidX=true
+        android.nonTransitiveRClass=true
+        EOF
+        
+    - name: Setup Gradle wrapper
+      run: |
+        cd android-app
+        gradle wrapper --gradle-version 8.2
+        
+    - name: Build APK
+      run: |
+        cd android-app
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon --stacktrace
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: fastlink-accounts-apk
+        path: android-app/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
