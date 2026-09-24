@@ -1,0 +1,121 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main, github-file-analysis-edfc2 ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Clone original app
+      run: |
+        cd android-build
+        git clone https://github.com/master1moon/song10.git temp-song10
+        mkdir -p www
+        cp temp-song10/index.html www/
+        cp temp-song10/app.js www/
+        cp temp-song10/manifest.json www/
+        cp temp-song10/serviceworker.js www/
+        cp -r temp-song10/css www/ || true
+        cp -r temp-song10/fonts www/ || true
+        cp -r temp-song10/icons www/ || true
+        cp -r temp-song10/js www/ || true
+        rm -rf temp-song10
+        
+    - name: Apply modifications to index.html
+      run: |
+        cd android-build/www
+        # Replace CSP
+        sed -i 's|<meta http-equiv="Content-Security-Policy"[^>]*>|<meta http-equiv="Content-Security-Policy" content="default-src '\''self'\'' https: blob:; script-src '\''self'\'' '\''unsafe-inline'\'' '\''unsafe-eval'\'' https:; style-src '\''self'\'' '\''unsafe-inline'\'' https:; img-src '\''self'\'' https: blob:; font-src '\''self'\'' https:; connect-src '\''self'\'' https: blob:; frame-src '\''self'\'' https:;">|g' index.html
+        # Add capacitor-bridge.js before </body>
+        sed -i 's|</body>|<script src="capacitor-bridge.js"></script>\n</body>|g' index.html
+        
+    - name: Apply modifications to serviceworker.js
+      run: |
+        cd android-build/www
+        # Add Capacitor check at the beginning
+        sed -i '1i const isCapacitor = typeof window !== '\''undefined'\'' \&\& typeof window.Capacitor !== '\''undefined'\'';' serviceworker.js
+        
+    - name: Apply modifications to app.js
+      run: |
+        cd android-build/www
+        # Add Capacitor support
+        sed -i '/DOMContentLoaded/a\  if (typeof window.Capacitor !== '\''undefined'\'') { console.log('\''يعمل داخل تطبيق أندرويد'\''); if (window.Capacitor.Plugins \&\& window.Capacitor.Plugins.SplashScreen) { window.Capacitor.Plugins.SplashScreen.hide(); } }' app.js
+        
+    - name: Install dependencies
+      run: |
+        cd android-build
+        npm install
+        
+    - name: Add Android platform
+      run: |
+        cd android-build
+        npx cap add android || echo "Android platform already exists"
+        
+    - name: Sync Capacitor
+      run: |
+        cd android-build
+        npx cap copy
+        npx cap sync android
+        
+    - name: Build APK
+      run: |
+        cd android-build/android
+        chmod +x gradlew
+        ./gradlew assembleDebug
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: fastlink-accounts-apk
+        path: android-build/android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 30
+        
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: android-build/android/app/build/outputs/apk/debug/app-debug.apk
+        name: FastLink Accounts APK v1.0.6
+        tag_name: v1.0.6-${{ github.run_number }}
+        body: |
+          ## 📱 فاست لينك حسابات - APK
+          
+          ### الميزات:
+          - ✅ إدارة المبيعات والمصروفات
+          - ✅ إدارة المخزون
+          - ✅ متابعة الديون
+          - ✅ تقارير مالية شاملة
+          - ✅ وضع داكن
+          - ✅ يعمل بدون إنترنت
+          
+          ### التثبيت:
+          1. حمّل ملف APK
+          2. فعّل "مصادر غير معروفة" في إعدادات أندرويد
+          3. ثبّت التطبيق
+          
+          ### الحجم:
+          ~8-12 MB
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
