@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة ملفات التطبيق - فاست لينك APK</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;padding:20px;direction:rtl}
+.container{max-width:900px;margin:0 auto}
+h1{color:#4ade80;text-align:center;margin:20px 0;font-size:28px}
+h2{color:#60a5fa;margin:20px 0 10px;font-size:20px}
+.sub{text-align:center;color:#94a3b8;margin-bottom:30px;font-size:14px}
+.card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:20px;margin:15px 0}
+.card h3{color:#fbbf24;margin-bottom:10px;font-size:16px}
+.card p{color:#cbd5e1;font-size:14px;line-height:1.8;margin-bottom:10px}
+.step{display:flex;gap:15px;align-items:flex-start;margin:15px 0}
+.step-num{background:#16a34a;color:#fff;width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+.step-content{flex:1}
+.step-content h4{color:#fff;margin-bottom:5px}
+.step-content p{color:#94a3b8;font-size:13px;margin:0}
+.code{background:#0f172a;border:1px solid #334155;border-radius:5px;padding:12px;margin:10px 0;font-family:'Courier New',monospace;font-size:12px;direction:ltr;text-align:left;overflow-x:auto;color:#e2e8f0}
+.code .comment{color:#64748b}
+.code .cmd{color:#4ade80}
+.btn{display:inline-block;padding:12px 24px;background:#16a34a;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;margin:5px;transition:all 0.3s}
+.btn:hover{background:#15803d;transform:translateY(-2px)}
+.btn-blue{background:#2563eb}
+.btn-blue:hover{background:#1d4ed8}
+.btn-purple{background:#7c3aed}
+.btn-purple:hover{background:#6d28d9}
+.warn{background:#78350f;border:1px solid #f59e0b;padding:15px;border-radius:10px;margin:20px 0}
+.warn h3{color:#fbbf24;margin-bottom:10px}
+.success{background:#064e3b;border:1px solid #10b981;padding:15px;border-radius:10px;margin:20px 0}
+.success h3{color:#6ee7b7;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:20px 0}
+.file-item{background:#0f172a;border:1px solid #334155;border-radius:8px;padding:12px}
+.file-item h4{color:#60a5fa;font-size:13px;margin-bottom:5px}
+.file-item p{color:#94a3b8;font-size:11px;margin:0}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>📱 إضافة ملفات التطبيق الأصلي</h1>
+<p class="sub">خطوات بسيطة لإضافة ملفات التطبيق من مستودع song10</p>
+
+<div class="warn">
+<h3>⚠️ ملاحظة مهمة</h3>
+<p>لا يمكن إضافة الملفات تلقائياً إلى GitHub من هذه البيئة. يجب عليك تنفيذ الخطوات التالية على جهازك.</p>
+</div>
+
+<h2>🎯 الطريقة 1: سكريبت تلقائي (الأسهل)</h2>
+
+<div class="card">
+<h3>📥 حمّل السكريبت وشغّله</h3>
+<p>هذا السكريبت يقوم بكل شيء تلقائياً:</p>
+<ul style="margin-right:20px;color:#cbd5e1;font-size:13px;line-height:2">
+<li>✅ تحميل ملفات التطبيق الأصلي من song10</li>
+<li>✅ نسخها إلى مجلد www/</li>
+<li>✅ تطبيق جميع التعديلات المطلوبة</li>
+<li>✅ تثبيت التبعيات</li>
+<li>✅ إضافة منصة Android</li>
+<li>✅ مزامنة Capacitor</li>
+</ul>
+
+<div style="text-align:center;margin-top:20px">
+<a href="setup-complete.sh" download class="btn">⬇️ تنزيل سكريبت Linux/Mac</a>
+<a href="setup-complete.bat" download class="btn btn-blue">⬇️ تنزيل سكريبت Windows</a>
+</div>
+
+<div class="code">
+<span class="comment"># على Linux/Mac:</span><br>
+<span class="cmd">chmod +x setup-complete.sh</span><br>
+<span class="cmd">./setup-complete.sh</span><br>
+<br>
+<span class="comment"># على Windows:</span><br>
+<span class="cmd">setup-complete.bat</span>
+</div>
+</div>
+
+<h2>🔧 الطريقة 2: يدوياً (خطوة بخطوة)</h2>
+
+<div class="card">
+<h3>الخطوة 1: استنساخ المستودع</h3>
+<div class="code">
+<span class="cmd">git clone https://github.com/master1moon/fastlink-apk2.git</span><br>
+<span class="cmd">cd fastlink-apk2/android-build</span>
+</div>
+</div>
+
+<div class="card">
+<h3>الخطوة 2: تحميل التطبيق الأصلي</h3>
+<div class="code">
+<span class="cmd">git clone https://github.com/master1moon/song10.git temp</span>
+</div>
+</div>
+
+<div class="card">
+<h3>الخطوة 3: نسخ الملفات إلى www/</h3>
+<div class="code">
+<span class="comment"># إنشاء مجلد www</span><br>
+<span class="cmd">mkdir -p www</span><br>
+<br>
+<span class="comment"># نسخ ملفات التطبيق</span><br>
+<span class="cmd">cp temp/index.html www/</span><br>
+<span class="cmd">cp temp/app.js www/</span><br>
+<span class="cmd">cp temp/manifest.json www/</span><br>
+<span class="cmd">cp temp/serviceworker.js www/</span><br>
+<span class="cmd">cp -r temp/css www/</span><br>
+<span class="cmd">cp -r temp/fonts www/</span><br>
+<span class="cmd">cp -r temp/icons www/</span><br>
+<span class="cmd">cp -r temp/js www/</span><br>
+<br>
+<span class="comment"># حذف المجلد المؤقت</span><br>
+<span class="cmd">rm -rf temp</span>
+</div>
+</div>
+
+<div class="card">
+<h3>الخطوة 4: تطبيق التعديلات</h3>
+
+<h4 style="color:#fbbf24;margin:15px 0 10px">4.1 تعديل index.html</h4>
+<p style="color:#cbd5e1;font-size:13px;margin-bottom:10px">افتح <code>www/index.html</code> واستبدل CSP بـ:</p>
+<div class="code">
+&lt;meta http-equiv="Content-Security-Policy"<br>
+&nbsp;&nbsp;content="default-src 'self' https: blob:;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style-src 'self' 'unsafe-inline' https:;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img-src 'self' https: blob:;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-src 'self' https:;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connect-src 'self' https: blob:;"&gt;
+</div>
+
+<p style="color:#cbd5e1;font-size:13px;margin:15px 0 10px">أضف قبل <code>&lt;/body&gt;</code>:</p>
+<div class="code">
+&lt;script src="capacitor-bridge.js"&gt;&lt;/script&gt;
+</div>
+
+<h4 style="color:#fbbf24;margin:15px 0 10px">4.2 تعديل serviceworker.js</h4>
+<p style="color:#cbd5e1;font-size:13px;margin-bottom:10px">افتح <code>www/serviceworker.js</code> وأضف في البداية:</p>
+<div class="code">
+const isCapacitor = typeof window !== 'undefined' && typeof window.Capacitor !== 'undefined';<br>
+if (request.url.startsWith('capacitor://')) return;
+</div>
+
+<h4 style="color:#fbbf24;margin:15px 0 10px">4.3 تعديل app.js</h4>
+<p style="color:#cbd5e1;font-size:13px;margin-bottom:10px">افتح <code>www/app.js</code> وأضف في DOMContentLoaded:</p>
+<div class="code">
+if (typeof window.Capacitor !== 'undefined') {<br>
+&nbsp;&nbsp;console.log('يعمل داخل تطبيق أندرويد');<br>
+&nbsp;&nbsp;if (window.Capacitor.Plugins && window.Capacitor.Plugins.SplashScreen) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;window.Capacitor.Plugins.SplashScreen.hide();<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+</div>
+
+<div class="card">
+<h3>الخطوة 5: تثبيت التبعيات والبناء</h3>
+<div class="code">
+<span class="comment"># تثبيت التبعيات</span><br>
+<span class="cmd">npm install</span><br>
+<br>
+<span class="comment"># إضافة منصة Android</span><br>
+<span class="cmd">npx cap add android</span><br>
+<br>
+<span class="comment"># مزامنة Capacitor</span><br>
+<span class="cmd">npx cap copy</span><br>
+<span class="cmd">npx cap sync android</span><br>
+<br>
+<span class="comment"># فتح Android Studio</span><br>
+<span class="cmd">npx cap open android</span>
+</div>
+</div>
+
+<div class="success">
+<h3>✅ النتيجة النهائية</h3>
+<p style="color:#a7f3d0;font-size:14px">بعد تنفيذ الخطوات، ستحصل على:</p>
+<ul style="margin-right:20px;color:#a7f3d0;font-size:13px;line-height:2">
+<li>✅ جميع ملفات التطبيق الأصلي في www/</li>
+<li>✅ جميع التعديلات مطبقة</li>
+<li>✅ منصة Android مضافة</li>
+<li>✅ Capacitor مزامن</li>
+</ul>
+<p style="color:#a7f3d0;font-size:14px;margin-top:10px">
+<strong>الخطوة الأخيرة:</strong> في Android Studio → Build → Build APK
+</p>
+</div>
+
+<h2>📂 الملفات المطلوبة</h2>
+
+<div class="grid">
+<div class="file-item">
+<h4>📄 index.html</h4>
+<p>الصفحة الرئيسية (بعد تعديل CSP)</p>
+</div>
+<div class="file-item">
+<h4>📄 app.js</h4>
+<p>ملف JavaScript الرئيسي (بعد إضافة Capacitor)</p>
+</div>
+<div class="file-item">
+<h4>📄 manifest.json</h4>
+<p>إعدادات PWA</p>
+</div>
+<div class="file-item">
+<h4>📄 serviceworker.js</h4>
+<p>Service Worker (بعد إضافة فحص Capacitor)</p>
+</div>
+<div class="file-item">
+<h4>📁 css/</h4>
+<p>ملفات الأنماط</p>
+</div>
+<div class="file-item">
+<h4>📁 fonts/</h4>
+<p>ملفات الخطوط</p>
+</div>
+<div class="file-item">
+<h4>📁 icons/</h4>
+<p>أيقونات التطبيق</p>
+</div>
+<div class="file-item">
+<h4>📁 js/</h4>
+<p>27 ملف JavaScript</p>
+</div>
+</div>
+
+<h2>🔗 روابط مفيدة</h2>
+
+<div class="card">
+<div style="text-align:center">
+<a href="https://github.com/master1moon/song10" target="_blank" class="btn">📦 المستودع الأصلي (song10)</a>
+<a href="https://github.com/master1moon/fastlink-apk2" target="_blank" class="btn btn-blue">🔧 مستودع البناء (fastlink-apk2)</a>
+<a href="https://nodejs.org" target="_blank" class="btn btn-purple">⬇️ تحميل Node.js</a>
+<a href="https://developer.android.com/studio" target="_blank" class="btn">⬇️ تحميل Android Studio</a>
+</div>
+</div>
+
+<div class="warn">
+<h3>💡 نصيحة</h3>
+<p style="color:#fcd34d;font-size:14px">
+إذا واجهت أي مشكلة، استخدم السكريبت التلقائي (الطريقة 1) - فهو يقوم بكل شيء تلقائياً!
+</p>
+</div>
+
+</div>
+</body>
+</html>
